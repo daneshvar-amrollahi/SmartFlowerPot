@@ -4,7 +4,7 @@
 // SHT25 I2C address is 0x40(64)
 #define Addr 0x40
 
-SoftwareSerial hc05(3, 2); // RX | TX
+SoftwareSerial hc05(2, 3); // RX | TX
 
 void setup()
 {  
@@ -74,6 +74,6 @@ void loop()
 {
   sht25();
   
-  hc05.write("salam!");
+  hc05.print("sal");
   delay(3000);
 }
