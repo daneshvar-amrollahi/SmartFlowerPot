@@ -1,12 +1,12 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial vmonitor(2, 3); // RX | TX
+SoftwareSerial virtualMonitor(2, 3); // RX | TX
 
 String msg = "";
 
 void setup() {
   Serial.begin(9600);
-  vmonitor.begin(9600);
+  virtualMonitor.begin(9600);
 }
 
 char pollSerial() {
@@ -25,8 +25,8 @@ void loop() {
       msg += c;
     
     if (c == '!') {
-      vmonitor.print("MASTER: Received: ");
-      vmonitor.println(msg);
+      virtualMonitor.print("MASTER: Received: ");
+      virtualMonitor.println(msg);
       msg = "";
     }
 }
