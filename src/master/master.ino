@@ -1,5 +1,10 @@
 #include <SoftwareSerial.h>
 
+struct SensorData {
+  int humidity;
+  int cTemp;
+};
+
 SoftwareSerial virtualMonitor(2, 3); // RX | TX
 
 String msg = "";
@@ -18,6 +23,22 @@ char pollSerial() {
   return ((char) 0);
 }
 
+struct SensorData msgToSensorData(const String& msg) {
+  int value = 0;
+  
+  int cIndex = 0;
+  
+  for (int i = 1; i < msg.length(); i++)
+    if (msg[i] == 'C')
+      cIndex = i;
+
+  struct SensorData sensorData;
+  sensorData.humidity = msg.substring(1, cIndex).toInt();
+  sensorData.cTemp = msg.substring(cIndex + 1, msg.length() - 1).toInt();
+  
+  return sensorData;
+}
+
 void loop() {
     char c = pollSerial();
     
@@ -27,6 +48,7 @@ void loop() {
     if (c == '!') {
       virtualMonitor.print("MASTER: Received: ");
       virtualMonitor.println(msg);
+      struct SensorData sensorData = msgToSensorData(msg);
       msg = "";
     }
 }
